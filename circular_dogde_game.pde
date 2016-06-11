@@ -5,10 +5,16 @@ boolean advance=false;
 ArrayList <Bullet> bullets=new ArrayList<Bullet>();
 You character = new You();
 int bulletSpeed=4;
+Audio gameOverSound=new Audio(); //make new HTML5 audio object 
+Audio advanceSound=new Audio();
 
 void setup(){
   size(500,500);
   strokeWeight(2);
+  gameOverSound.setAttribute("src","squish.mp3");
+  advanceSound.setAttribute("src","bite2.mp3");
+  gameOverSound.volume=1;
+  advanceSound.volume=1;
   newGame();
 }
 
@@ -34,12 +40,13 @@ void draw(){
   fill(0);
   textSize(30);
   textAlign(RIGHT);
-  text(points, width-10, 40);
+  text(points, width-15, 40);
 
   //gameOver 
   for (int i = 0; i < bullets.size(); ++i) {
     if((bullets.get(i).getX()<=character.getX()+10)&&(bullets.get(i).getX()>=character.getX()-10)&&(bullets.get(i).getY()>=character.getY()-10)&&bullets.get(i).getY()<=character.getY()+10){
       gameOver=true;
+      gameOverSound.play();
     }
   }
   if(gameOver==true){
@@ -55,7 +62,7 @@ void draw(){
 }
 
 public void newGame(){
-  radius=300;
+  radius=220;
   rad=0;
   points=0;
   speed=20;
@@ -67,6 +74,7 @@ public void newGame(){
 
 void mousePressed(){
   if(gameOver==true){
+    gameOverSound.play();
     fill(255);
     rect(0,0,width,height);
     gameOver=false;
@@ -225,6 +233,7 @@ class EastBullet implements Bullet{
         speed++;
       }
       points+=10;
+      advanceSound.play();
       advance=false;
     }
     bullets.get(2).setX(-1);
