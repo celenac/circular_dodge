@@ -1,19 +1,21 @@
-int radius, x,y;
+int radius, x,y, points,speed;
 double rad;
 boolean gameOver=false;
+boolean advance=false;
 ArrayList <Bullet> bullets=new ArrayList<Bullet>();
 You character = new You();
 int bulletSpeed=4;
+Audio gameOverSound=new Audio(); //make new HTML5 audio object 
+Audio advanceSound=new Audio();
 
 void setup(){
   size(500,500);
   strokeWeight(2);
-  radius=50;
-  rad=0;
-  bullets.add(new NorthBullet());
-  bullets.add(new SouthBullet());
-  bullets.add(new WestBullet());
-  bullets.add(new EastBullet());
+  gameOverSound.setAttribute("src","squish.mp3");
+  advanceSound.setAttribute("src","bite2.mp3");
+  gameOverSound.volume=1;
+  advanceSound.volume=1;
+  newGame();
 }
 
 void draw(){
@@ -21,31 +23,71 @@ void draw(){
 
   //orbit path
   stroke(200);
+  noFill();
   ellipse(width/2, height/2, radius, radius);
 
   character.show();
   character.move();
   
-  for(Bullet i: bullets){
-   i.move();
-   i.show();
+  if(gameOver==false){
+    for(Bullet i: bullets){
+     i.move();
+     i.show();
+    }
   }
+
+  //points
+  fill(0);
+  textSize(30);
+  textAlign(RIGHT);
+  text(points, width-15, 40);
 
   //gameOver 
   for (int i = 0; i < bullets.size(); ++i) {
     if((bullets.get(i).getX()<=character.getX()+10)&&(bullets.get(i).getX()>=character.getX()-10)&&(bullets.get(i).getY()>=character.getY()-10)&&bullets.get(i).getY()<=character.getY()+10){
       gameOver=true;
-      fill((int)Math.random()*255,0,0);
+      gameOverSound.play();
     }
+  }
+  if(gameOver==true){
+    for (int j = 0; j < bullets.size(); ++j) {
+      bullets.remove(j);
+    }
+    fill(255,0,0,100);
+    rect(0,0,width,height);
+    textAlign(CENTER);
+    fill(255);
+    text("Click to play again",width/2,height/2);
+  }
+}
+
+public void newGame(){
+  radius=220;
+  rad=0;
+  points=0;
+  speed=20;
+  bullets.add(new NorthBullet());
+  bullets.add(new SouthBullet());
+  bullets.add(new WestBullet());
+  bullets.add(new EastBullet());
+}
+
+void mousePressed(){
+  if(gameOver==true){
+    gameOverSound.play();
+    fill(255);
+    rect(0,0,width,height);
+    gameOver=false;
+    newGame();
   }
 }
 
 void keyPressed(){
- if(keyCode==LEFT){
-   rad=rad-(Math.PI/20);
+ if(keyCode==LEFT && gameOver==false){
+   rad=rad-(Math.PI/speed);
  }
- else if(keyCode==RIGHT){
-  rad=rad+(Math.PI/20); 
+ else if(keyCode==RIGHT && gameOver==false){
+  rad=rad+(Math.PI/speed); 
  }
 }
 
@@ -56,8 +98,9 @@ class You{
      y=height/2+(int)(Math.sin(rad)*(radius/2));
   }
   void show(){
+    fill(255);
     stroke(0);
-     ellipse(x,y,10,10);
+    ellipse(x,y,10,10);
   }
   void move(){
       x=width/2+(int)(Math.cos(rad)*(radius/2));
@@ -142,7 +185,7 @@ class WestBullet implements Bullet{
  private int x,y;
  boolean onScreen;
  WestBullet(){
-  x=0;
+  x=-2;
   y=height/2+(int)(Math.random()*(radius))-radius/2;;
   onScreen=true;
  }
@@ -154,6 +197,7 @@ class WestBullet implements Bullet{
     x+=0;
   }
   if(x>width+10){
+    advance=true;
     bullets.get(1).setY(height+1);
     bullets.get(1).setX(width/2+(int)(Math.random()*(radius))-radius/2);
   }
@@ -171,7 +215,7 @@ class EastBullet implements Bullet{
  private int x,y;
  boolean onScreen;
  EastBullet(){
-  x=-10;
+  x=-12;
   y=height/2+(int)(Math.random()*(radius))-radius/2;
   onScreen=false;
  }
@@ -182,7 +226,16 @@ class EastBullet implements Bullet{
   else{
     x-=0;
   }
-  if(x<-10){
+  if(x<-12){
+    if(advance==true){
+      if(radius>40){
+        radius=radius-5;
+        speed++;
+      }
+      points+=10;
+      advanceSound.play();
+      advance=false;
+    }
     bullets.get(2).setX(-1);
     bullets.get(2).setY(height/2+(int)(Math.random()*(radius))-radius/2);
   }
