@@ -74,9 +74,9 @@ public void newGame(){
 
 void mousePressed(){
   if(gameOver==true){
-    gameOverSound.play();
     fill(255);
     rect(0,0,width,height);
+    gameOverSound.play();
     gameOver=false;
     newGame();
   }
