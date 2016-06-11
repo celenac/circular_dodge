@@ -46,7 +46,7 @@ void draw(){
   for (int i = 0; i < bullets.size(); ++i) {
     if((bullets.get(i).getX()<=character.getX()+10)&&(bullets.get(i).getX()>=character.getX()-10)&&(bullets.get(i).getY()>=character.getY()-10)&&bullets.get(i).getY()<=character.getY()+10){
       gameOver=true;
-      gameOverSound.currentTime=1;
+      gameOverSound.currentTime=0;
       gameOverSound.play();
     }
   }
@@ -77,7 +77,7 @@ void mousePressed(){
   if(gameOver==true){
     fill(255);
     rect(0,0,width,height);
-    gameOverSound.currentTime=1;
+    gameOverSound.currentTime=0;
     gameOverSound.play();
     gameOver=false;
     newGame();
