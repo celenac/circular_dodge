@@ -13,7 +13,14 @@
 	</body>
 
 	<footer>
-		<p><b>How to play:</b></p>
-		<p>Use the <i>left</i> and <i>right</i> arrow keys to move.</p>
+		<button onclick='showInstructions()'>How to play</button>
+		<p id='instructions'></p>
 	</footer>
+
+	<script type="text/javascript">
+		function showInstructions(){
+			document.getElementById('instructions').innerHTML='<h4><i>Controls:</i></h4><p> Left and right arrow keys</p> <h4><i>Instructions:</i></h4> <li>Dodge the bullets</li> <li>One round consists of four bullet shots</li> <li>Successfully completing each round grants 10 points</li> <li>The total number of points is shown on the top right corner of the screen</li> <li>The orbit shrinks after each round, reducing the amount of free space you have to dodge the incoming bullets</li>';
+		}
+	</script>
 </html>
+

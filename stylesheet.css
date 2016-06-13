@@ -48,6 +48,12 @@ html{
 	color:white;
 }
 
+p{
+	font-size: 14px;
+	text-align: left;
+	padding:2px;
+}
+
 a:link{
 	color: rgb(51, 153, 102);
 }
@@ -58,4 +64,21 @@ a:hover{
 
 a:visited{
 	color: gray;
+}
+
+button{
+	background-color: rgb(242, 242, 242);
+	border:black;
+	color: black;
+	font-family: Century Gothic;
+	font-size:16px;
+	padding: 8px 40px;
+	width:80%;
+	box-shadow: 0 -5px 20px 0 rgba(90, 90, 90, 0.2), 0 5px 20px 0 rgba(90, 90, 90, 0.2);
+	border-radius: 5px;
+}
+
+button:hover{
+	background-color: orange;
+	color:white;
 }
