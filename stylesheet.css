@@ -39,6 +39,11 @@ footer{
 	margin-right:30%;
 }
 
+div{
+	width: 400px;
+	margin: auto;
+}
+
 html{
 	background-color: rgb(255);
 	/*background-attachment: fixed;
@@ -73,7 +78,7 @@ button{
 	font-family: Century Gothic;
 	font-size:16px;
 	padding: 8px 40px;
-	width:80%;
+	width:500px;
 	box-shadow: 0 -5px 20px 0 rgba(90, 90, 90, 0.2), 0 5px 20px 0 rgba(90, 90, 90, 0.2);
 	border-radius: 5px;
 }
